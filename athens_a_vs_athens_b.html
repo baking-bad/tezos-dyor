@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.7.0/diff2html.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.7.0/diff2html.min.js"></script>
+</head>
+<body>
+<div id="diff"></div>
+<script>
+  var text = "--- constants_repr.ml\n+++ constants_repr.ml\n@@ -111,7 +111,7 @@\n   proof_of_work_threshold =\n     Int64.(sub (shift_left 1L 46) 1L) ;\n   tokens_per_roll =\n-    Tez_repr.(mul_exn one 8_000) ;\n+    Tez_repr.(mul_exn one 10_000) ;\n   michelson_maximum_type_size = 1000 ;\n   seed_nonce_revelation_tip = begin\n     match Tez_repr.(one /? 8L) with\n\n--- init_storage.ml\n+++ init_storage.ml\n@@ -53,9 +53,6 @@\n       return ctxt\n   | Alpha_003 ->\n       Contract_storage.reindex_contract ctxt >>=? fun ctxt ->\n-      (* Reallocated rolls to delegates, since rolls are now 8k tez. *)\n-      Roll_storage.update_tokens_per_roll ctxt\n-        Constants_repr.default.tokens_per_roll >>=? fun ctxt ->\n       (* Update hard gas limits to the new defaults. *)\n       Raw_context.patch_constants ctxt begin fun constants ->\n         { constants with\n";
+  var diffHtml = Diff2Html.getPrettyHtml(text, {
+    inputFormat: 'diff',
+    showFiles: true,
+    matching: 'lines',
+    outputFormat: 'side-by-side'
+  });
+  document.getElementById("diff").innerHTML = diffHtml;
+</script>
+</body>
+</html>
